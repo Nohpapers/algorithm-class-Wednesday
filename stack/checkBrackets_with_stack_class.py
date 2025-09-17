@@ -31,7 +31,7 @@ def test_brackets():
         "arr[(i+1])=0;", #False
     ]
     
-    for t in tests:
+    for t in tests:  
         print(t, "-> ", checkBrackets(t))
 
 if __name__ == "__main__":
