@@ -1,20 +1,13 @@
 # 하노이 탑 문제 : 재귀적으로 문제 해결
 
 def tower_hanoi(n, start, tmp, target):
-    # 1. 재귀 호출 종료 ( base case)
     if n == 1:
-        print(f"원판 {n} : {start} -> {target}")
-
-    # 재귀 분할 호출
+        print(f"원판{n} {start} -> {target}")
     else:
-        # 위의 n - 1개 원판을 start -> tmp 로 옮김 ( target막대를 보조 막대)
-        tower_hanoi(n-1, start, target, tmp)  # 왼쪽 서브 트리 재귀 순회
+        tower_hanoi(n-1, start, target, tmp)
+        print(f"원판{n} {start} -> {target}")
+        tower_hanoi(n-1, tmp, start, target )
 
-        # 가장 큰 1 개 원판을 start -> target으로 이동 출력 # 부모 노드 출력
-        print(f"원판 {n} : {start} -> {target}")
-
-        # tmp 에 있는 n-1개 원판을 tmp -> target 으로 옮김 (start를 보조 막대)
-        tower_hanoi(n-1, tmp, start, target) # 오른쪽 서브 트리 재귀 순회
 
 
 if __name__ == "__main__":

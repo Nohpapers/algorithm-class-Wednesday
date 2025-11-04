@@ -11,44 +11,43 @@ class CircularQueueOneSlotEmpty:
     """
     
     def __init__(self, capacity):
-        self.capacity = capacity # 용량: 실제 원형 큐가 담을 수 있는 최대 요소 개수
-        self.N = self.capacity + 1 #  내부 배열의 크기 (한 칸 비움)
-        self.array = [None] * self.N # 요소를 저장할 내부 배열
-        self.front = 0 # 전단 인덱스
-        self.rear = 0  # 후단 인덱스  
-
+        self.capacity = capacity 
+        self.N = self.capacity + 1 
+        self.array = self.N * [None]
+        self.front = 0
+        self.rear = 0
+    
     def is_empty(self):
-        return self.front == self.rear
+        return self.front == self.rear 
     
     def is_full(self):
-        return (self.rear + 1) % self.N == self.front  # front가 rear 다음에 있으면 포화상태
+        return self.front == (self.rear + 1 )%self.N
     
     def enqueue(self,item):
         if not self.is_full():
-            self.rear = (self.rear + 1) % self.N #rear를 먼저 하나 증가 (시계방향)
-            self.array[self.rear] = item # 새 항목 저장
+            self.rear = (self.rear + 1)%self.N
+            self.array[self.rear] = item 
         else:
-            print("큐가 포화 상태입니다!")
-    
+            print("포화")
+        
     def dequeue(self):
         if not self.is_empty():
-            self.front = (self.front + 1) % self.N # front를 먼저 하나 증가 (시계방향)
-            item = self.array[self.front] #  반환할 항목
-            self.array[self.front] = None # 빈칸 처리
+            self.front = (self.front + 1)%self.N
+            item = self.array[self.front]
+            self.array[self.front] = None
             return item
         else:
-            raise IndexError("빈 큐에서 삭제 연산 수행!!!")
+            print("공백")
         
     def peek(self):
-         # 원형 큐의 맨 앞의 요소를 조회
-         if not self.is_empty():
-             return self.array[(self.front + 1) % self.N]
-         else:
-              raise IndexError("빈 큐에서 조회 연산 수행!!!")
-         
-    def size(self): # 현재 원형큐에 저장된 요소의 총 개수 반환
-        return (self.rear - self.front + self.N) % self.N
-             
+        if not self.is_empty():
+            return self.array[(self.front+1)%self.N]
+        else:
+            raise IndexError("Underflow")
+
+    def size(self):
+        return (self.rear - self.front + self.N)%self.N
+
     def display(self, msg="CircularQueueOneSlotEmpty"):
         
         print(f"{msg}: front={self.front}, rear={self.rear}, \
@@ -80,7 +79,7 @@ class CircularQueueOneSlotEmpty:
             print(val, end="   ")
             
         print("]")
-# end for class
+# end for class 
   
 # ----------------------------
 # code 2.2: 원형 큐 테스트
