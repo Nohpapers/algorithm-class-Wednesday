@@ -121,7 +121,6 @@ class LinkedList:
             node.data =  elem   
         
 
-
     def find_by_title(self, title): # 책 제목으로 리스트에서 도서 찾기 
         ptr = self.head
         while ptr is not None:
@@ -161,12 +160,12 @@ class BookManagement:
             ptr = ptr.link
         return False
     
-    def add_book(self, book_id, title, author, year): # 도서 추가 
+    def add_book(self, book_id, title, author, year): # 도서 추가 코드 
         pos = self.book.size()
         self.book.insert(pos,Book(book_id, title, author, year))
         print(f"도서 {title}가 추가되었습니다")
      
-    def remove_book(self,title): #도서 삭제
+    def remove_book(self,title): #도서 삭제 코드 
         pos = self.book.find_pos_by_title(title)
         if pos is None:
             print("도서를 찾을 수 없습니다")
@@ -174,7 +173,7 @@ class BookManagement:
         deleted_Node = self.book.delete(pos)
         print(f"도서 {deleted_Node.data.title}가 삭제되었습니다")
 
-    def search_book(self,title): # 도서 조회
+    def search_book(self,title): # 도서 조회 코드
         book = self.book.find_by_title(title)
         if book is None:
             print("해당 도서를 찾을 수 없습니다")
@@ -188,8 +187,8 @@ class BookManagement:
         print("현재 등록된 도서 목록:")
         ptr = self.book.head
         while ptr is not None:
-            a = ptr.data
-            print(f"[책 번호: {a.book_id}, 제목: {a.title}, 저자: {a.author}, 출판 연도: {a.year}]")
+            dis = ptr.data
+            print(f"[책 번호: {dis.book_id}, 제목: {dis.title}, 저자: {dis.author}, 출판 연도: {dis.year}]")
             ptr = ptr.link
 
     def run(self):
