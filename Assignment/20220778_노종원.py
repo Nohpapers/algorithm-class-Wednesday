@@ -21,85 +21,105 @@ class Book: # 도서 정보 저장
 # 단순 연결 리스트
 class LinkedList:
     def __init__(self):
-        self.head = None  # 비어있는 리스트의 초기 상태
-        
+        self.head = None # 비어있는 리스트의 초기 상태
+
     # 주요 기본 연산
     def isEmpty(self):
+        # 리스트의 빈 상태 검사
         return self.head == None
     
     def isFull(self):
-        return False  
+        # 리스트의 포화 상태 검사
+        return False # 동적 노드 할당
     
-    def getNode(self, pos):  # pos번째 노드 반환
-        if pos < 0: 
-            return None 
-        if self.head == None: 
+    def getNode(self, pos): # pos 기반 연산
+        # pos 위치에 있는 노드를 반환 
+        # pos는 리스트의 인덱스 0부터 고려
+        if pos < 0 : return None # pos는 유효하지않은 위치
+        if self.head == None: # 리스트가 빈 상태 
             return None
-        else:
-            ptr = self.head 
+        else :
+            ptr = self.head
             for _ in range(pos):
-                if ptr == None: 
+                if ptr == None : # pos가 리스트보다 크기가 큰 경우(유효하지 않는 위치)
                     return None
                 ptr = ptr.link
-            return ptr 
-
-    def getEntry(self, pos): # pos 번째 노드 데이터 반환 
-        node = self.getNode(pos)
-        if node == None: 
+            return ptr
+        
+    def getEntry(self, pos): # 인덱스 기반 연산
+        # 리스트의 pos 위치에 있는 노드를 찾아 데이터값을 반환
+        node = self.getNode(pos) # 1. 해당 위치의 노드를 탐색
+        if node == None : # 해당 노드가 없는 경우
             return None
-        else:
+        else: # 있는 경우
             return node.data
-
-    def insert(self, pos, elem): # pos 위치에 삽입
-        if pos < 0:
+        
+    def insert(self, pos, elem) : # 인덱스 기반 연산 
+        # pos 위치에서 새노드(elem) 삽입 연산
+        if pos < 0: 
             raise ValueError("잘못된 위치 값!")
-        new = Node(elem)
-        before = self.getNode(pos-1)
-        if before is None:
-            if pos == 0: 
-                new.link = self.head
-                self.head = new
-                return
-            else: 
-                raise IndexError("삽입할 위치가 유효하지 않습니다")
-        else:
+        
+        new = Node(elem) # 1. 새 노드 생성
+        before = self.getNode(pos-1) # 2. pos -1 위치의 노드 탐색
+        # 3. before 노드의 위치에 따라 구분
+        if before is None :
+            if pos == 0: # 1) 머리 노드로 삽입
+                new.link = self.head 
+                self.head = new 
+                return 
+            else: # 2) pos가 리스트 범위에서 벗어남
+                raise IndexError("삽입할 위치가 유효하지 않음!")
+        else:  # 3) 중간 노드로 삽입
             before.append(new)
 
-    def delete(self, pos): # pos 위치 삭제
-        if pos < 0:
+    def delete(self, pos) : # 인덱스 기반 연산
+        # pos 위치에서 해당 노드 삭제한 후 그 노드 반환
+        if pos < 0 : 
             raise ValueError("잘못된 위치 값!")
-        before = self.getNode(pos-1)
-        if before == None:
-            if pos == 0:
+        
+        before = self.getNode(pos-1) # 1. 삭제 노드 이전의 노드 탐색
+        # 2. before 노드의 위치에 따라 구분
+        if before == None :
+            if pos == 0: # 1) 머리 노드로 삭제
                 deleted = self.head
                 self.head = deleted.link
-                deleted.link = None
+                deleted.link = None # 연결 해제
                 return deleted
-            else:
-                raise IndexError("삭제할 위치가 유효하지 않습니다")
-        else:
+            else: # 2)pos가 리스트 범위에서 벗어남
+                raise IndexError("삽입할 위치가 유효하지 않음!")
+        else: # 3) 중간 노드로 삭제
             return before.popNext()
-
-    def size(self): # 전체 노드 개수 
-        if self.head == None:
+        
+    def size(self):
+        # 리스트의 전체 노드의 개수
+        if self.head == None: # 현재 리스트가 공백이면
             return 0
-        else:
+        else :
             ptr = self.head
             count = 0
-            while ptr is not None:
+            while ptr is not None: 
                 count += 1
                 ptr = ptr.link
             return count
-
-    def display(self):
-        if self.head == None:
-            print("None")
-        else:
+    
+    def display(self, msg = "LinkedList:"):
+        # 리스트의 내용을 출력
+        print(msg, end = ' ')
+        if self.head == None: # 현재 리스트가 공백이면
+            return None
+        else :
             ptr = self.head
-            while ptr is not None:
-                print(ptr.data, end=' -> ')
+            while ptr is not None: 
+                print(ptr.data, end = " -> ")
                 ptr = ptr.link
-            print("None")
+            print('None')
+
+    def replace(self,pos,elem): # 인덱스 기반 연산
+        # 리스트의 pos 위치에 있는 노드의 데이터 필드를 수정
+        node = self.getNode(pos)
+        if node != None: # 해당 노드가 있는 경우
+            node.data =  elem   
+        
 
 
     def find_by_title(self, title): # 책 제목으로 리스트에서 도서 찾기 
