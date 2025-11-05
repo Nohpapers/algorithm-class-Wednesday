@@ -12,8 +12,8 @@ class Node:  # 단순 연결 리스트를 위한 노드 클래스
         return deleted_node
     
 class Book: # 도서 정보 저장
-    def __init__(self, bookID, title, author, year):
-        self.bookID = bookID
+    def __init__(self, book_id, title, author, year):
+        self.book_id = book_id
         self.title = title
         self.author = author
         self.year = year
@@ -145,10 +145,10 @@ class BookManagement:
     def __init__(self):
         self.book = LinkedList()
 
-    def duplicated_bookID(self, book_id): # 책 번호 중복 확인
+    def duplicated_book_id(self, book_id): # 책 번호 중복 확인
         ptr = self.book.head
         while ptr is not None:
-            if ptr.data.bookID == book_id:
+            if ptr.data.book_id == book_id:
                 return True
             ptr = ptr.link
         return False
@@ -179,7 +179,7 @@ class BookManagement:
         if book is None:
             print("해당 도서를 찾을 수 없습니다")
             return
-        print(f"[책 번호: {book.bookID}, 제목: {book.title}, 저자: {book.author}, 출판 연도: {book.year}]")
+        print(f"[책 번호: {book.book_id}, 제목: {book.title}, 저자: {book.author}, 출판 연도: {book.year}]")
 
     def display_books(self): # 전체 도서 목록 출력
         if self.book.isEmpty():
@@ -189,7 +189,7 @@ class BookManagement:
         ptr = self.book.head
         while ptr is not None:
             a = ptr.data
-            print(f"[책 번호: {a.bookID}, 제목: {a.title}, 저자: {a.author}, 출판 연도: {a.year}]")
+            print(f"[책 번호: {a.book_id}, 제목: {a.title}, 저자: {a.author}, 출판 연도: {a.year}]")
             ptr = ptr.link
 
     def run(self):
@@ -206,8 +206,8 @@ class BookManagement:
                 try:
 
                     while True:
-                        bookID = int(input("책 번호를 입력하세요: ").strip())
-                        if self.duplicated_bookID(bookID):
+                        book_id = int(input("책 번호를 입력하세요: ").strip())
+                        if self.duplicated_book_id(book_id):
                             print("이미 존재하는 책 번호입니다. 다시 입력하세요.")
                         else:
                             break
@@ -219,7 +219,7 @@ class BookManagement:
                             break
                     author = input("저자를 입력하세요: ").strip()
                     year = int(input("출판 연도를 입력하세요: ").strip())
-                    self.add_book(bookID,title,author,year)
+                    self.add_book(book_id,title,author,year)
                 except ValueError:
                     print("도서 추가 실패하였습니다. 다시 입력하세요.")
             elif chose == '2':
