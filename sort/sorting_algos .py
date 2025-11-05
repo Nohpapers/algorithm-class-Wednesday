@@ -47,7 +47,7 @@ def quick_sort(arr, left, right): # 퀵 정렬
                 high -= 1 # 인덱스 감소 <- 방향으로 이동
             if left <= high: # 이둘은 서로 반대편에 있어야 할값이므로 서로 교환
                 A[low], A[high] = A[high], A[low]
-                low =+1
+                low +=1
                 high -= 1
             else:
                 break
