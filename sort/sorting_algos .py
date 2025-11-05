@@ -32,28 +32,36 @@ def insertion_sort(arr): # 삽입 정렬
         a[j+1] = key # 삽입할 위치 j+1
     return a
 
-def quick_sort(arr, left, right): # 퀵 정렬
-    #left, right는 정렬할 구간의 양 끝 인덱스
+def quick_sort(arr, left, right):  # 퀵 정렬
+    def partition(A, left, right):
+        pivot = A[left]
+        low = left + 1
+        high = right
 
-    def partition(A, left, right): # 내부 분할 함수 
-        pivot = A[left] # 피봇 = 시작 요소로 설정 
-        low = left +1 # 피봇 다음부터 시작해서 피봇보다 같거나 작은값 찾기
-        high = right # 피봇보다 큰 값 찾기
+        while low <= high:
+            # low는 high를 넘지 않는 한에서 피벗보다 큰 값을 찾을 때까지 이동
+            while low <= high and A[low] <= pivot:
+                low += 1
+            # high는 low를 넘지 않는 한에서 피벗보다 큰(또는 >일 경우) 값을 찾을 때까지 이동
+            while low <= high and A[high] > pivot:
+                high -= 1
 
-        while low<=high: # 엇갈릴때 까지 반복
-            while low<=right and A[low] <= pivot:
-                low += 1 #인덱스 증가 -> 방향으로 이동
-            while high >= left and A[high] >pivot:
-                high -= 1 # 인덱스 감소 <- 방향으로 이동
-            if left <= high: # 이둘은 서로 반대편에 있어야 할값이므로 서로 교환
+            if low <= high:   # 교차되지 않았을 때만 교환
                 A[low], A[high] = A[high], A[low]
-                low +=1
+                low += 1
                 high -= 1
             else:
                 break
-        #루프를 빠져나오면 high는 "피벗 이하(<= pivot)" 마지막 위치를 가리킴
+
+        # pivot을 최종 위치인 high와 교환 (high는 pivot 이하의 마지막 인덱스)
         A[left], A[high] = A[high], A[left]
-        return high 
+        return high
+
+    if left < right:
+        q = partition(arr, left, right)
+        quick_sort(arr, left, q - 1)
+        quick_sort(arr, q + 1, right)
+    return arr
 
 
     if left < right: # 정렬할 원소가 2개 이상인 경우
@@ -86,7 +94,7 @@ def radix_sort(arr, bucket_size = 10): # 기수 정렬
     return arr 
 
 def list_sorted(arr): # 리스트의 arr의 sort 메서드 사용
-    return arr.sort(reversed=False)
+    return arr.sort(reverse=False)
 
 def python_sorted(arr): # 내장 정렬 함수
     return sorted(arr)
@@ -124,7 +132,10 @@ algorithms = {
 # 4. 입력 크기별 실행 시간 측정
 # ======================================================
 sizes = [100, 1000, 10000, 100000, 1000000, 10000000]  # 테스트할 입력 크기
-results = {name: [] for name in algorithms.keys()} # 결과 저장용 딕셔너리
+# results = {name: [] for name in algorithms.keys()} # 결과 저장용 딕셔너리
+results = {}
+for name in algorithms.keys():
+    results[name] = []
 repeat = 3  # 평균 반복 횟수
 
 for n in sizes:
