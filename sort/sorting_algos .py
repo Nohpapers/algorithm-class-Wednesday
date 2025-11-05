@@ -32,43 +32,32 @@ def insertion_sort(arr): # 삽입 정렬
         a[j+1] = key # 삽입할 위치 j+1
     return a
 
-def quick_sort(arr, left, right):  # 퀵 정렬
-    def partition(A, left, right):
-        pivot = A[left]
-        low = left + 1
-        high = right
-
-        while low <= high:
-            # low는 high를 넘지 않는 한에서 피벗보다 큰 값을 찾을 때까지 이동
-            while low <= high and A[low] <= pivot:
-                low += 1
-            # high는 low를 넘지 않는 한에서 피벗보다 큰(또는 >일 경우) 값을 찾을 때까지 이동
-            while low <= high and A[high] > pivot:
-                high -= 1
-
-            if low <= high:   # 교차되지 않았을 때만 교환
-                A[low], A[high] = A[high], A[low]
-                low += 1
-                high -= 1
-            else:
-                break
-
-        # pivot을 최종 위치인 high와 교환 (high는 pivot 이하의 마지막 인덱스)
-        A[left], A[high] = A[high], A[left]
-        return high
-
-    if left < right:
-        q = partition(arr, left, right)
-        quick_sort(arr, left, q - 1)
-        quick_sort(arr, q + 1, right)
-    return arr
-
+def quick_sort(arr, left, right): # 퀵정렬
+    def partition(A, left, right): # 분할 함수
+        pivot = A[left] # 피벗 = 시작 요소로 설정
+        low = left + 1 #  피벗 다음부터 시작해서 피벗보다 작은 값 찾기
+        high = right #  피벗보다 큰 값 찾기
+        while low <= high: # 엇갈릴 때까지 반복
+            while low <= right and A[low] <= pivot:  # 피벗보다 큰 값(>pivot) 찾기
+                low += 1 # 인덱스 증가(오른쪽으로 이동)
+            while high >= left and A[high] > pivot: # 피벗보다 작거나 같은 값(<= pivot) 찾기
+                high -= 1 # 인덱스 감소(왼쪽으로 이동)
+            if low <= high: # 이 둘은 서로 반대편에 있어야 할 값이므로, 서로 교환
+                A[low], A[high] = A[high], A[low] # 교환
+                # 경계를 좁히며 탐색을 계속
+                low += 1 
+                high -= 1 
+            else: # 엇갈렸다면
+                break 
+        # 루프를 빠져나오면 high는 “피벗 이하(≤ pivot) 마지막 위치”를 가리킴        
+        A[left], A[high] = A[high], A[left]  # 피벗과 high 위치 교환 - 피벗 제자리로 놓기
+        return high 
 
     if left < right: # 정렬할 원소가 2개 이상인 경우
-        q = partition(arr, left, right) # 분할할 위치 - 피벗 기준 왼쪽은 작겉나 같은값, 오른쪽은 큰 값
-        quick_sort(arr,left, q-1)
-        quick_sort(arr, q+1, right)
-    return arr 
+        q = partition(arr, left, right) # 분할할 위치- 피벗 기준 왼쪽은 작거나 같은 값, 오른쪽은 큰 값 
+        quick_sort(arr, left, q - 1) # 왼쪽 부분 배열 정렬
+        quick_sort(arr, q + 1, right) # 오른쪽 부분 배열 정렬
+    return arr # 반환
 
 def radix_sort(arr, bucket_size = 10): # 기수 정렬 
     # 버킷 리스트 생성 
@@ -140,7 +129,10 @@ repeat = 3  # 평균 반복 횟수
 
 for n in sizes:
     print(f"\n데이터 크기 n={n}")
-    data = [random.randint(1, 99999) for _ in range(n)] # 무작위 데이터 생성
+    # data = [random.randint(1, 99999) for _ in range(n)] # 무작위 데이터 생성
+    data = []
+    for _ in range(n):
+        data.append(random.randint(1, 99999)) # 1~99999 사이의 무작위 난수 반환
     for name, func in algorithms.items(): # 각 알고리즘에 대해
         # 느린 정렬은 대규모 입력 생략
         if name in ["삽입정렬", "선택정렬"] and n > 1000: # 1천 초과 시 생략
