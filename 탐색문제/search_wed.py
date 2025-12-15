@@ -10,33 +10,34 @@ plt.rcParams["font.family"] = "Malgun Gothic"   # 한글 폰트 지정
 # 1. 순차 탐색 (Sequential Search)
 def linear_search(arr, key, low=0, high=None):
     if high is None:
-        high = len(arr) - 1
-    count = 0 # 비교 연산 횟수
+        high = len(arr) - 1 
+    count = 0                    # 비교연산 횟수
     for i in range(low, high+1): # 탐색구간
-        if arr[i] == key:
+        count += 1
+        if arr[i] == key: 
             return i, count 
-    return -1, count # fail한 경우
+    return -1, count             # fail한 경우
 
 # 2. 이동 평균 탐색 (Sequential Search with Transpose)
 def sequential_search_transpose(arr, key, low=0, high=None):
     if high is None:
-        high = len(arr) - 1
-    count = 0 # 비교 연산 횟수
+        high = len(arr) - 1 
+    count = 0 # 비교연산 횟수
     for i in range(low, high+1): # 탐색구간
         count += 1
-        if arr[i] == key: #success 한경우
-            if i > low: # 첫번째 원소가 아니라면
-                arr[i], arr[i-1] = arr[i-1], arr[i] # 한칸 앞으로 이동 
+        if arr[i] == key: # success한 경우
+            if i > low : # 첫 번째 원소가 아니라면
+                arr[i], arr[i-1] = arr[i-1], arr[i] # 한칸 앞으로 이동
             return i, count 
     return -1, count # fail한 경우
 
 # 3. 이진 탐색 (Binary Search)
 def binary_search_iter(arr, key, low=0, high=None):
     if high is None:
-        high = len(arr) - 1
-    count = 0 # 비교 연산 횟수
+        high = len(arr) - 1 
+    count = 0 # 비교연산 횟수
     left, right = low, high
-    while left <= right:
+    while left <= right: 
         count += 1
         mid = (left + right) // 2
         if arr[mid] == key:
@@ -45,13 +46,10 @@ def binary_search_iter(arr, key, low=0, high=None):
             left = mid + 1
         else:
             right = mid - 1
-    return -1, count # fail한 경우
-
-# 4. 보간 탐색 (Interpolation Search)
+    return -1, count 
 
 
-
-# 5. 성능 테스트
+# 4. 성능 테스트
 n = 10000                                    # 데이터 크기
 arr = sorted(random.sample(range(n * 3), n)) # 정렬된 랜덤 배열 생성 
 targets = random.sample(arr, 1000)           #  1000개의 임의 target 값을 각 탐색 알고리즘으로 탐색
@@ -69,19 +67,17 @@ def measure(func, arr, targets): # 평균 비교 횟수와 평균 실행시간 �
 linear_t, linear_c = measure(linear_search, arr, targets)
 sequential_t, sequential_c = measure(sequential_search_transpose, arr, targets)
 binary_t, binary_c = measure(binary_search_iter, arr, targets)
-interp_t, interp_c = measure(interpolation_search, arr, targets)
 
 print("=== 탐색 알고리즘 성능 비교 결과 ===")
 print(f"순차 탐색 : 평균 {linear_c:.2f}회 비교, 평균시간 {linear_t*1e6:.2f} μs")
 print(f"이동 평균 탐색 : 평균 {sequential_c:.2f}회 비교, 평균시간 {sequential_t*1e6:.2f} μs")
 print(f"이진 탐색 : 평균 {binary_c:.2f}회 비교, 평균시간 {binary_t*1e6:.2f} μs")
-print(f"보간 탐색 : 평균 {interp_c:.2f}회 비교, 평균시간 {interp_t*1e6:.2f} μs")
 
 # 6. 시각화 (비교 횟수 및 실행 시간)
 import numpy as np
-labels = ["순차 탐색", "이동 평균 탐색", "이진 탐색", "보간 탐색"]
-compare_counts = [linear_c, sequential_c, binary_c, interp_c]
-times = [linear_t*1e6, sequential_t*1e6, binary_t*1e6, interp_t*1e6] 
+labels = ["순차 탐색", "이동 평균 탐색", "이진 탐색"]
+compare_counts = [linear_c, sequential_c, binary_c]
+times = [linear_t*1e6, sequential_t*1e6, binary_t*1e6] 
 
 x = np.arange(len(labels))
 width = 0.35

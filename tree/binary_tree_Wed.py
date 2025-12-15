@@ -205,3 +205,4 @@ if __name__ == "__main__":
 # 	print("\n트리의 높이:", tree_height(root))
 # 	print("단말 노드의 개수:", count_leaves(root))
 # 	print("간선의 개수:", count_edges(root))
+
